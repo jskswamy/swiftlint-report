@@ -1,0 +1,7 @@
+{% for rule in rules %}
+### {{ rule.source }}
+
+#### {{ rule.result.name }}
+
+{{ rule.result.description }}
+{% endfor %}

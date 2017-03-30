@@ -2,8 +2,9 @@ const glob = require('glob');
 const path = require('path');
 const async = require('async');
 const readline = require('readline');
-const _ = require('lodash');
 const fs = require('fs');
+const _ = require('lodash');
+const nunjucks = require('nunjucks');
 
 const rulesBasePath = '../SwiftLint/Source/SwiftLintFramework/Rules/';
 const AttributeMatcher = /(\w*):\s*"([\w\W]*)"/
@@ -38,7 +39,8 @@ const ExtractRule = (file) => {
         result['description'] = `${result['description']}${value}`;
         append = ContinuityTester.test(line);
       }
-    })
+    });
+    buffer.on('error', (err) => reject(err));
   })
 };
 
@@ -55,11 +57,25 @@ const ParseRules = (files) => {
   });
 };
 
+const GenerateMarkdown = (rules) => {
+  return new Promise((resolve, reject) => {
+    const result = nunjucks.render('Rules.md.njk', { rules: rules });
+    resolve(result);
+  });
+};
+
+const Save = (content, fileName) => {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(fileName, content, (err) => {
+      if (err) reject(err);
+      else resolve(content);
+    });
+  });
+}
+
 GetRuleFiles
 .then((files) => ParseRules(files))
-.then((result) => {
-  console.log(result);
-})
-.catch((err) => {
-  console.log(err);
-});
+.then((rules) => GenerateMarkdown(rules))
+.then((content) => Save(content, 'Rules.md'))
+.then(() => console.log('Generated'))
+.catch((err) => console.log(err));

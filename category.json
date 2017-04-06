@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Naming",
+    "rules": [
+      "generic_type_name",
+      "identifier_name",
+      "type_name"
+    ]
+  },
+  {
+    "name": "Design",
+    "rules": [
+      "class_delegate_protocol",
+      "compiler_protocol_init",
+      "cyclomatic_complexity",
+      "discarded_notification_center_observer",
+      "dynamic_inline",
+      "empty_count",
+      "explicit_type_interface",
+      "fatal_error_message",
+      "first_where",
+      "for_where",
+      "force_cast",
+      "force_try",
+      "force_unwrapping",
+      "function_parameter_count",
+      "implicitly_unwrapped_optional",
+      "nesting",
+      "nimble_operator",
+      "notification_center_detachment",
+      "object_literal",
+      "overridden_super_call",
+      "private_outlet",
+      "private_unit_test",
+      "prohibited_super_call",
+      "weak_delegate"
+    ]
+  },
+  {
+    "name": "Whitespace",
+    "rules": [
+      "closing_brace",
+      "closure_spacing",
+      "comma",
+      "opening_brace",
+      "operator_whitespace",
+      "operator_usage_whitespace",
+      "return_arrow_whitespace",
+      "trailing_whitespace",
+      "vertical_whitespace"
+    ]
+  },
+  {
+    "name": "Length",
+    "rules": [
+      "file_length",
+      "function_body_length",
+      "large_tuple",
+      "leading_whitespace",
+      "line_length",
+      "type_body_length"
+    ]
+  },
+  {
+    "name": "Legacy",
+    "rules": [
+      "legacy_cggeometry_functions",
+      "legacy_constant",
+      "legacy_constructor",
+      "legacy_nsgeometry_functions"
+    ]
+  },
+  {
+    "name": "CodeStyle",
+    "rules": [
+      "attributes",
+      "closure_end_indentation",
+      "closure_parameter_position",
+      "colon",
+      "control_statement",
+      "empty_parameters",
+      "empty_parentheses_with_trailing_closure",
+      "explicit_init",
+      "file_header",
+      "implicit_getter",
+      "mark",
+      "missing_docs",
+      "number_separator",
+      "redundant_discardable_let",
+      "redundant_nil_coalescing",
+      "redundant_optional_initialization",
+      "redundant_string_enum_value",
+      "redundant_void_return",
+      "shorthand_operator",
+      "sorted_imports",
+      "statement_position",
+      "switch_case_on_newline",
+      "todo",
+      "trailing_comma",
+      "trailing_newline",
+      "trailing_semicolon",
+      "unused_closure_parameter",
+      "unused_enumerated",
+      "unused_optional_binding",
+      "valid_docs",
+      "valid_ibinspectable",
+      "vertical_parameter_alignment",
+      "void_return",
+      "syntactic_sugar"
+    ]
+  }
+]

@@ -5,6 +5,7 @@ const readline = require('readline');
 const fs = require('fs');
 const _ = require('lodash');
 const nunjucks = require('nunjucks');
+const rulesCategory = require('./category.json');
 
 const rulesBasePath = '../SwiftLint/Source/SwiftLintFramework/Rules/';
 const AttributeMatcher = /(\w*):\s*"([\w\W]*)"/
@@ -34,6 +35,10 @@ const ExtractRule = (file) => {
           result[name] = value;
           append = ContinuityTester.test(line);
         }
+        if (name == 'identifier') {
+          let category = _.find(rulesCategory, (category) => _.includes(category.rules, value));
+          result['category'] = category ? category.name : 'Others';
+        }
       } else if (append) {
         let [,value] = DescriptionMatcher.exec(line)
         result['description'] = `${result['description']}${value}`;
@@ -59,7 +64,8 @@ const ParseRules = (files) => {
 
 const GenerateMarkdown = (rules) => {
   return new Promise((resolve, reject) => {
-    const result = nunjucks.render('Rules.md.njk', { rules: rules });
+    const rulesByCategory = _.groupBy(rules, (rule) => rule.result.category);
+    const result = nunjucks.render('Rules.md.njk', { rulesByCategory });
     resolve(result);
   });
 };
@@ -75,6 +81,7 @@ const Save = (content, fileName) => {
 
 GetRuleFiles
 .then((files) => ParseRules(files))
+// .then((rules) => Save(JSON.stringify(rules, null, '\t'), 'result.json'));
 .then((rules) => GenerateMarkdown(rules))
 .then((content) => Save(content, 'Rules.md'))
 .then(() => console.log('Generated'))

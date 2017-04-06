@@ -6,6 +6,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const nunjucks = require('nunjucks');
 const rulesCategory = require('./category.json');
+const rulesSeverity = require('./severity.json');
 
 const rulesBasePath = '../SwiftLint/Source/SwiftLintFramework/Rules/';
 const AttributeMatcher = /(\w*):\s*"([\w\W]*)"/
@@ -19,6 +20,23 @@ const GetRuleFiles = new Promise((resolve, reject) => {
     else resolve(files);
   });
 });
+
+const GetRuleSeverity = (identifier) => {
+  let severity = _.get(rulesSeverity, identifier, 'warning');
+  if (_.isObject(severity)) {
+    let keys = _.keys(severity);
+    let reason = '';
+    if (_.includes(keys, 'error')) {
+      reason = `${reason} 'error' when value ${severity['error']}`;
+    }
+    if(_.includes(keys, 'warning')) {
+      reason = `${reason} and 'warning' when value ${severity['warning']}`;
+    }
+    console.log(reason);
+    return reason;
+  }
+  return severity;
+}
 
 const ExtractRule = (file) => {
   return new Promise((resolve, reject) => {
@@ -38,6 +56,7 @@ const ExtractRule = (file) => {
         if (name == 'identifier') {
           let category = _.find(rulesCategory, (category) => _.includes(category.rules, value));
           result['category'] = category ? category.name : 'Others';
+          result['severity'] = GetRuleSeverity(value);
         }
       } else if (append) {
         let [,value] = DescriptionMatcher.exec(line)

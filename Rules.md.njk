@@ -1,11 +1,12 @@
 {% for category, rules in rulesByCategory %}
-
 ## {{ category }} ({{ rules.length }})
 
 {% for rule in rules %}
 #### {{ rule.result.name }}
 
 {{ rule.result.description }}
+
+> Severity: {{ rule.result.severity }}
 {% endfor %}
 
 {% endfor %}
